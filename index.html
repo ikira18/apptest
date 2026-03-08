@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>برامج بلس - اترهيب</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, Arial, sans-serif;
+      background: #080818;
+      background-image:
+        radial-gradient(ellipse at 20% 20%, rgba(80,60,180,0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(40,100,200,0.2) 0%, transparent 50%);
+      min-height: 100vh;
+      padding: 20px 15px 50px;
+    }
+
+    /* ═══════════════════ هيدر ═══════════════════ */
+    .header {
+      background: linear-gradient(135deg,
+        rgba(80,140,255,0.12),
+        rgba(120,80,255,0.12));
+      border: 1px solid rgba(100,160,255,0.25);
+      border-radius: 22px;
+      padding: 22px 20px;
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .header h1 {
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    .channel-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50px;
+      padding: 8px 18px;
+    }
+    .channel-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .channel-name {
+      color: #bbbbcc;
+      font-size: 14px;
+    }
+
+    /* ═══════════════════ شبكة التطبيقات ═══════════════════ */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    /* ═══════════════════ كارد ═══════════════════ */
+    .app-card {
+      background: linear-gradient(160deg, #1c1c3a 0%, #14142e 100%);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 22px;
+      padding: 18px 12px 16px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .app-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(120,160,255,0.6),
+        transparent);
+    }
+    .app-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 17px;
+      margin: 0 auto 12px;
+      display: block;
+      object-fit: cover;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    .app-name {
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .app-note {
+      color: #00cfff;
+      font-size: 11px;
+      line-height: 1.5;
+      margin-bottom: 13px;
+      min-height: 16px;
+    }
+    .install-btn {
+      display: block;
+      background: linear-gradient(135deg, #5aabff, #0066ff);
+      color: #fff;
+      padding: 11px 8px;
+      border-radius: 13px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      box-shadow: 0 3px 12px rgba(0,100,255,0.35);
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .install-btn:active {
+      transform: scale(0.96);
+      opacity: 0.85;
+    }
+
+    /* ═══════════════════ فوتر ═══════════════════ */
+    .footer {
+      text-align: center;
+      color: #666;
+      font-size: 12px;
+      margin: 8px 0 22px;
+    }
+    .footer a {
+      color: #00cfff;
+      text-decoration: none;
+    }
+
+    /* ═══════════════════ زر تيليجرام ═══════════════════ */
+    .telegram-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .telegram-btn {
+      width: 58px;
+      height: 58px;
+      background: #229ED9;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 26px;
+      box-shadow: 0 4px 20px rgba(34,158,217,0.45);
+      transition: transform 0.2s;
+    }
+    .telegram-btn:active { transform: scale(0.92); }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════ هيدر ══════════ -->
+  <div class="header">
+    <h1>برامج بلس موقعه على شهادة مجانية</h1>
+    <div class="channel-row">
+      <!-- غيّر src لصورة قناتك -->
+      <img class="channel-avatar"
+           src="https://via.placeholder.com/36/ff6600/fff?text=A"
+           alt="avatar">
+      <span class="channel-name">قناة اترهيب الرسمية</span>
+    </div>
+  </div>
+
+  <!-- ══════════ التطبيقات ══════════ -->
+  <div class="apps-grid">
+
+    <!-- ① إنستا ريكرام -->
+    <div class="app-card">
+      <img class="app-icon"
+           src="https://via.placeholder.com/72/e1306c/fff?text=IG"
+           alt="Instagram">
+      <div class="app-name">إنستا ريكرام</div>
+      <div class="app-note">لتفعيل المميزات اضغط هنا شاهد الشرح</div>
+      <a class="install-btn"
+         href="itms-services://?action=download-manifest&url=https://ikira18.github.io/ATRAHEEBBC/manifest-instagram.plist">
+        تثبيت
+      </a>
+    </div>
+
+    <!-- ② يوتيوب بلس -->
+    <div class="app-card">
+      <img class="app-icon"
+           src="https://via.placeholder.com/72/ff0000/fff?text=YT"
+           alt="YouTube">
+      <div class="app-name">يوتيوب بلس</div>
+      <div class="app-note"></div>
+      <a class="install-btn"
+         href="itms-services://?action=download-manifest&url=https://ikira18.github.io/ATRAHEEBBC/manifest-youtube.plist">
+        تثبيت
+      </a>
+    </div>
+
+    <!-- ③ سينمانا -->
+    <div class="app-card">
+      <img class="app-icon"
+           src="https://via.placeholder.com/72/cc0000/fff?text=C"
+           alt="Cinema">
+      <div class="app-name">سينمانا</div>
+      <div class="app-note"></div>
+      <a class="install-btn"
+         href="itms-services://?action=download-manifest&url=https://ikira18.github.io/ATRAHEEBBC/manifest-cinema.plist">
+        تثبيت
+      </a>
+    </div>
+
+    <!-- ④ واتساب الذهبي -->
+    <div class="app-card">
+      <img class="app-icon"
+           src="https://via.placeholder.com/72/ffc107/333?text=W"
+           alt="WhatsApp">
+      <div class="app-name">واتساب الذهبي</div>
+      <div class="app-note"></div>
+      <a class="install-btn"
+         href="itms-services://?action=download-manifest&url=https://ikira18.github.io/ATRAHEEBBC/manifest-whatsapp.plist">
+        تثبيت
+      </a>
+    </div>
+
+    <!-- ✚ لإضافة تطبيق جديد، انسخ الكارد هنا وغيّر البيانات -->
+
+  </div>
+
+  <!-- ══════════ فوتر ══════════ -->
+  <div class="footer">
+    مطوّر.مؤسسة غير موثوق فيه &nbsp;
+    <a href="https://t.me/YOUR_CHANNEL">إضغط هنا شاهد الشرح</a>
+  </div>
+
+  <!-- ══════════ تيليجرام ══════════ -->
+  <div class="telegram-wrap">
+    <a class="telegram-btn" href="https://t.me/YOUR_CHANNEL">✈️</a>
+  </div>
+
+</body>
+</html>
