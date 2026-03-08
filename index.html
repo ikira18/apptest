@@ -2,69 +2,110 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>برامج بلس - كيرا</title>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      font-family: 'Tajawal', Arial, sans-serif;
-      background: #07071a;
-      min-height: 100vh;
-      padding: 20px 15px 60px;
-      overflow-x: hidden;
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* تعريف خط STC */
+    @font-face {
+      font-family: 'STC';
+      src: local('STC Bold'), local('STC-Bold');
+      font-weight: 700;
     }
 
-    /* خلفية نجوم */
-    body::before {
-      content: '';
+    :root {
+      --primary-color: #007aff;
+      --secondary-color: #005bb5;
+      --bg-light: #f4f7f9;
+      --card-bg: #ffffff;
+      --text-dark: #1c1c1e;
+      --text-muted: #636366;
+      --note-bg: #fff9e6;
+      --note-border: #ffcc00;
+      --note-text: #8a6d00;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    body {
+      font-family: 'STC', 'Cairo', sans-serif;
+      font-weight: 700;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      min-height: 100dvh;
+      position: relative;
+      padding: 20px 15px 80px;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ===== CANVAS BACKGROUND ===== */
+    canvas {
       position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 15% 15%, rgba(72,52,200,0.35) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 80%, rgba(30,90,200,0.25) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 50%, rgba(10,10,40,0.9) 0%, transparent 100%);
-      pointer-events: none;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 0;
+      pointer-events: none;
     }
 
     .page-wrap {
       position: relative;
-      z-index: 1;
+      z-index: 10;
       max-width: 480px;
       margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    /* ═══════════════ هيدر ═══════════════ */
-    .header {
-      background: linear-gradient(135deg,
-        rgba(90,150,255,0.13),
-        rgba(130,80,255,0.13));
-      border: 1px solid rgba(120,170,255,0.22);
-      border-radius: 24px;
+    /* ===== HEADER CARD ===== */
+    .header-card {
+      background: var(--card-bg);
+      border-radius: 20px;
       padding: 24px 20px;
       text-align: center;
-      margin-bottom: 24px;
-      backdrop-filter: blur(12px);
-      animation: fadeDown 0.6s ease both;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0,0,0,0.03);
+      animation: cardAppear 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
     }
 
-    .header h1 {
-      color: #fff;
-      font-size: 19px;
-      font-weight: 900;
-      line-height: 1.5;
-      margin-bottom: 16px;
-      text-shadow: 0 2px 12px rgba(100,140,255,0.4);
+    .header-card h1 {
+      color: var(--text-dark);
+      font-size: clamp(18px, 5vw, 22px);
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle-line {
+      width: 40px;
+      height: 3px;
+      background: var(--primary-color);
+      border-radius: 2px;
+      margin: 10px auto 20px;
     }
 
     .channel-row {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: #f8f9fa;
+      border: 1px solid rgba(0,0,0,0.05);
       border-radius: 50px;
       padding: 8px 18px;
     }
@@ -74,24 +115,23 @@
       height: 34px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(120,170,255,0.4);
+      border: 2px solid #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .channel-name {
-      color: #b0b8d8;
+      color: var(--text-dark);
       font-size: 14px;
       font-weight: 700;
     }
 
-    /* ═══════════════ شبكة التطبيقات ═══════════════ */
+    /* ===== APPS GRID ===== */
     .apps-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
-      margin-bottom: 20px;
     }
-
-    /* إذا كان عدد التطبيقات فردي، الكارد الأخير يأخذ العرض الكامل */
+    
     .app-card:last-child:nth-child(odd) {
       grid-column: 1 / -1;
       max-width: 50%;
@@ -99,228 +139,248 @@
       width: 100%;
     }
 
-    /* ═══════════════ كارد ═══════════════ */
     .app-card {
-      background: linear-gradient(160deg, #1a1a3e 0%, #11112a 100%);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 22px;
+      background: var(--card-bg);
+      border-radius: 20px;
       padding: 20px 14px 16px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      animation: fadeUp 0.5s ease both;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0,0,0,0.03);
+      animation: cardAppear 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .app-card:nth-child(1) { animation-delay: 0.1s; }
     .app-card:nth-child(2) { animation-delay: 0.2s; }
     .app-card:nth-child(3) { animation-delay: 0.3s; }
-    .app-card:nth-child(4) { animation-delay: 0.4s; }
 
-    .app-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 15%; right: 15%;
-      height: 1px;
-      background: linear-gradient(90deg,
-        transparent,
-        rgba(130,170,255,0.7),
-        transparent);
-    }
-
-    /* توهج خلف الكارد */
-    .app-card::after {
-      content: '';
-      position: absolute;
-      top: -30px; left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: rgba(80,120,255,0.12);
-      filter: blur(20px);
-      pointer-events: none;
+    @keyframes cardAppear {
+      from { opacity: 0; transform: translateY(30px) scale(0.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .app-icon {
       width: 74px;
       height: 74px;
-      border-radius: 18px;
       margin: 0 auto 12px;
-      display: block;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      background: #fff;
+      border: 2px solid #fff;
+    }
+
+    .app-icon img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      box-shadow:
-        0 4px 16px rgba(0,0,0,0.5),
-        0 0 0 1px rgba(255,255,255,0.08);
-      position: relative;
-      z-index: 1;
+      display: block;
     }
 
     .app-name {
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 800;
-      margin-bottom: 6px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .app-note {
-      color: #00d4ff;
-      font-size: 11px;
-      line-height: 1.5;
+      color: var(--text-dark);
+      font-size: 16px;
+      font-weight: 900;
       margin-bottom: 14px;
-      min-height: 14px;
-      position: relative;
-      z-index: 1;
     }
 
     .install-btn {
-      display: block;
-      background: linear-gradient(135deg, #5ab0ff 0%, #0055ff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       color: #fff;
-      padding: 11px 8px;
-      border-radius: 13px;
+      padding: 10px 8px;
+      border-radius: 12px;
       text-decoration: none;
       font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.3px;
-      box-shadow:
-        0 4px 14px rgba(0,80,255,0.4),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      transition: transform 0.15s, box-shadow 0.15s;
-      position: relative;
-      z-index: 1;
+      font-weight: 900;
+      box-shadow: 0 6px 16px rgba(0, 122, 255, 0.25);
+      transition: all 0.2s ease;
+      cursor: pointer;
     }
 
+    .install-btn:hover {
+      box-shadow: 0 8px 24px rgba(0, 122, 255, 0.35);
+      transform: translateY(-2px);
+    }
+    
     .install-btn:active {
-      transform: scale(0.95);
-      box-shadow: 0 2px 8px rgba(0,80,255,0.3);
+      transform: scale(0.97);
     }
 
-    /* ═══════════════ فوتر ═══════════════ */
-    .footer {
-      text-align: center;
-      color: #555;
-      font-size: 12px;
-      margin: 8px 0 24px;
+    /* ===== NOTE / FOOTER ===== */
+    .note-card {
+      padding: 16px;
+      background: var(--note-bg);
+      border: 1px solid var(--note-border);
+      border-radius: 15px;
+      font-size: 13px;
+      color: var(--note-text);
       line-height: 1.8;
+      text-align: center;
+      animation: cardAppear 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      animation-delay: 0.4s;
     }
 
-    .footer a {
-      color: #00d4ff;
-      text-decoration: none;
-      font-weight: 700;
+    .note-card a {
+      color: #d4a000;
+      text-decoration: underline;
+      font-weight: 900;
     }
 
-    /* ═══════════════ زر تيليجرام ═══════════════ */
+    /* ===== TELEGRAM BTN ===== */
     .telegram-wrap {
       display: flex;
       justify-content: center;
+      margin-top: 10px;
+      animation: cardAppear 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      animation-delay: 0.5s;
     }
 
     .telegram-btn {
       width: 58px;
       height: 58px;
-      background: linear-gradient(135deg, #2aabee, #1a85c5);
+      background: var(--card-bg);
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       text-decoration: none;
       font-size: 26px;
-      box-shadow:
-        0 4px 20px rgba(34,158,217,0.45),
-        0 0 0 1px rgba(255,255,255,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 20px rgba(0, 122, 255, 0.15);
+      transition: all 0.2s ease;
     }
 
+    .telegram-btn:hover {
+      background: rgba(0, 122, 255, 0.05);
+      transform: translateY(-2px);
+    }
+    
     .telegram-btn:active {
-      transform: scale(0.9);
-      box-shadow: 0 2px 10px rgba(34,158,217,0.3);
+      transform: scale(0.95);
     }
 
-    /* ═══════════════ أنيميشن ═══════════════ */
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
   </style>
 </head>
 <body>
-<div class="page-wrap">
 
-  <!-- ══════════ هيدر ══════════ -->
-  <div class="header">
-    <h1>برامج بلس موقعه على شهادة مجانية</h1>
-    <div class="channel-row">
-      <!-- غيّر src لأيقونة قناتك -->
-      <img class="channel-avatar"
-           src="https://via.placeholder.com/34/ff6600/fff?text=A"
-           alt="avatar">
-      <span class="channel-name">قناة اترهيب الرسمية</span>
-    </div>
-  </div>
+  <canvas id="bg"></canvas>
 
-  <!-- ══════════ التطبيقات ══════════ -->
-  <div class="apps-grid">
+  <div class="page-wrap">
 
-    <!-- ① AirMovie -->
-    <div class="app-card">
-      <img class="app-icon"
-           src="https://via.placeholder.com/74/0066ff/fff?text=Air"
-           alt="AirMovie">
-      <div class="app-name">AirMovie</div>
-      <div class="app-note"></div>
-      <a class="install-btn"
-         href="itms-services://?action=download-manifest&url=https://ikira18.github.io/apptest/manifest-airmovie.plist">
-        تثبيت
-      </a>
+    <div class="header-card">
+      <h1>برامج بلس موقعه على شهادة مجانية</h1>
+      <div class="subtitle-line"></div>
+      <div class="channel-row">
+        <img class="channel-avatar" src="https://via.placeholder.com/34/ff6600/fff?text=A" alt="avatar">
+        <span class="channel-name">قناة اترهيب الرسمية</span>
+      </div>
     </div>
 
-    <!-- ② سينمانا -->
-    <div class="app-card">
-      <img class="app-icon"
-           src="https://via.placeholder.com/74/cc0000/fff?text=C"
-           alt="Cinema">
-      <div class="app-name">سينمانا</div>
-      <div class="app-note"></div>
-      <a class="install-btn"
-         href="itms-services://?action=download-manifest&url=https://ikira18.github.io/apptest/manifest-cinema.plist">
-        تثبيت
-      </a>
+    <div class="apps-grid">
+
+      <div class="app-card">
+        <div class="app-icon">
+          <img src="https://via.placeholder.com/74/0066ff/fff?text=Air" alt="AirMovie">
+        </div>
+        <div class="app-name">AirMovie</div>
+        <a class="install-btn" href="itms-services://?action=download-manifest&url=https://ikira18.github.io/apptest/manifest-airmovie.plist">
+          تثبيت
+        </a>
+      </div>
+
+      <div class="app-card">
+        <div class="app-icon">
+          <img src="https://via.placeholder.com/74/cc0000/fff?text=C" alt="Cinema">
+        </div>
+        <div class="app-name">سينمانا</div>
+        <a class="install-btn" href="itms-services://?action=download-manifest&url=https://ikira18.github.io/apptest/manifest-cinema.plist">
+          تثبيت
+        </a>
+      </div>
+
+      <div class="app-card">
+        <div class="app-icon">
+          <img src="https://via.placeholder.com/74/ff6600/fff?text=Hi" alt="HiTV">
+        </div>
+        <div class="app-name">HiTV</div>
+        <a class="install-btn" href="itms-services://?action=download-manifest&url=https://ikira18.github.io/apptest/manifest-hitv.plist">
+          تثبيت
+        </a>
+      </div>
+
     </div>
 
-    <!-- ③ HiTV -->
-    <div class="app-card">
-      <img class="app-icon"
-           src="https://via.placeholder.com/74/ff6600/fff?text=Hi"
-           alt="HiTV">
-      <div class="app-name">HiTV</div>
-      <div class="app-note"></div>
-      <a class="install-btn"
-         href="itms-services://?action=download-manifest&url=https://ikira18.github.io/apptest/manifest-hitv.plist">
-        تثبيت
-      </a>
+    <div class="note-card">
+      مطوّر.مؤسسة غير موثوق فيه <br>
+      <a href="https://t.me/ikiraplus2" target="_blank">إضغط هنا شاهد الشرح</a>
+    </div>
+
+    <div class="telegram-wrap">
+      <a class="telegram-btn" href="https://t.me/ikira18" target="_blank">✈️</a>
     </div>
 
   </div>
 
-  <!-- ══════════ فوتر ══════════ -->
-  <div class="footer">
-    مطوّر.مؤسسة غير موثوق فيه &nbsp;
-    <a href="https://t.me/YOUR_CHANNEL">إضغط هنا شاهد الشرح</a>
-  </div>
+  <script>
+    /* ===== CANVAS LIGHT PARTICLES ===== */
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
 
-  <!-- ══════════ تيليجرام ══════════ -->
-  <div class="telegram-wrap">
-    <a class="telegram-btn" href="https://t.me/YOUR_CHANNEL">✈️</a>
-  </div>
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', () => { resize(); init(); });
 
-</div>
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * W;
+        this.y = Math.random() * H;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.life = Math.random();
+        this.maxLife = Math.random() * 0.01 + 0.005;
+        this.color = Math.random() > 0.5 
+          ? `rgba(0, 122, 255, ${Math.random() * 0.1 + 0.05})` 
+          : `rgba(100, 150, 200, ${Math.random() * 0.1 + 0.05})`;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life -= this.maxLife;
+        if (this.life <= 0 || this.x > W || this.x < 0 || this.y > H || this.y < 0) this.reset();
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      particles = Array.from({length: 80}, () => new Particle());
+    }
+    init();
+
+    function draw() {
+      ctx.fillStyle = 'rgba(244, 247, 249, 0.4)';
+      ctx.fillRect(0, 0, W, H);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
 </body>
 </html>
